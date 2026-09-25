@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LicenseController;  
+use App\Http\Controllers\UserController; 
+use App\Http\Controllers\VehicleController; 
+use App\Http\Controllers\WeightLogController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,6 +31,21 @@ Route::get("/gallery", function () {
 
     return view("test/index", compact("ant", "bird", "cat", "god", "spider"));
 });
+
+
+Route::get('/', function () {
+    return redirect()->route('weights.index');
+});
+
+Route::resource('weights', WeightLogController::class)->except(['create', 'show', 'edit']);
+
+Route::resource('license', LicenseController::class);
+Route::resource('user', UserController::class);
+Route::resource('vehicle', VehicleController::class);
+
+Route::get('/about-me', function () {
+    return view('about-me');
+})->name('about-me');
 
 
 
