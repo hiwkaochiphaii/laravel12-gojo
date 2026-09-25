@@ -118,9 +118,10 @@
                 </table>
             </div>
 
-            <div class="mt-4">
-                {{ $employees->links() }}
-            </div>
+<div class="mt-4">
+    {{ $employees->appends(request()->query())->links() }}
+    {{-- หรือใช้ $employees->withQueryString()->links() --}}
+</div>
 
         </div>
     </div>
