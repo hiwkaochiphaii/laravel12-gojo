@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Facades\Storage;
 
 class Employee extends Model
 {
@@ -16,20 +18,27 @@ class Employee extends Model
         'salary',
         'email',
         'phone',
-        'photo',
         'hired_at',
+        'photo',
     ];
 
     protected $casts = [
-        'salary'   => 'decimal:2',
         'hired_at' => 'date',
+        'salary' => 'decimal:2',
     ];
 
     /**
-     * Accessor: full URL to the employee's photo, or null.
+     * Accessor สำหรับสร้าง $employee->photo_url
      */
-    public function getPhotoUrlAttribute(): ?string
+    protected function photoUrl(): Attribute
     {
-        return $this->photo ? asset('storage/' . $this->photo) : null;
+        return Attribute::make(
+            get: function () {
+                if ($this->photo && Storage::disk('public')->exists($this->photo)) {
+                    return Storage::url($this->photo);
+                }
+                return null;
+            }
+        );
     }
 }
