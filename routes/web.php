@@ -6,6 +6,9 @@ use App\Http\Controllers\LicenseController;
 use App\Http\Controllers\UserController; 
 use App\Http\Controllers\VehicleController; 
 use App\Http\Controllers\WeightLogController;
+use App\Http\Controllers\WeightController;
+use App\Http\Controllers\EmployeeController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,11 +36,9 @@ Route::get("/gallery", function () {
 });
 
 
-Route::get('/', function () {
-    return redirect()->route('weights.index');
-});
 
-Route::resource('weights', WeightLogController::class)->except(['create', 'show', 'edit']);
+
+Route::resource('weights', WeightLogController::class);
 
 Route::resource('license', LicenseController::class);
 Route::resource('user', UserController::class);
@@ -47,7 +48,9 @@ Route::get('/about-me', function () {
     return view('about-me');
 })->name('about-me');
 
-
+Route::middleware(['auth'])->group(function () {
+    Route::resource('employees', EmployeeController::class);
+});
 
 Route::get("/gallery/ant", function () {
     $ant = "https://cdn3.movieweb.com/i/article/Oi0Q2edcVVhs4p1UivwyyseezFkHsq/1107:50/Ant-Man-3-Talks-Michael-Douglas-Update.jpg";
