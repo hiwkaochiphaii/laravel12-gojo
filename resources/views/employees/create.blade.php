@@ -6,7 +6,7 @@
     <div class="py-8">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white rounded-lg shadow p-6">
-                <form method="POST" action="{{ route('employees.store') }}" enctype="multipart/form-data">
+                <form action="{{ route('employees.store') }}" method="POST" enctype="multipart/form-data">
                     @include('employees._form')
                 </form>
             </div>
